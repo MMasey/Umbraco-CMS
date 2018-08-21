@@ -40,11 +40,11 @@ angular.module("umbraco").controller("Umbraco.Dialogs.LinkPickerController",
 				// if a link exists, get the properties to build the anchor name list
 				contentResource.getById(id).then(function (resp) {
 					$scope.anchorValues = tinyMceService.getAnchorNames(JSON.stringify(resp.properties));
-					$scope.model.target.url = resp.urls[0];
+					$scope.target.url = resp.urls[0];
 				});
 			} else if ($scope.target.url.length) {
 				// a url but no id/udi indicates an external link - trim the url to remove the anchor/qs
-				$scope.target.url = $scope.model.url.substring(0, $scope.model.url.search(/(#|\?)/));
+				$scope.target.url = $scope.target.url.split(/(#|\?)/)[0];
 			}
 		}
 
@@ -81,7 +81,7 @@ angular.module("umbraco").controller("Umbraco.Dialogs.LinkPickerController",
 				} else {
 					contentResource.getById(args.node.id).then(function (resp) {
 						$scope.anchorValues = tinyMceService.getAnchorNames(JSON.stringify(resp.properties));
-						$scope.model.target.url = resp.urls[0];
+						$scope.target.url = resp.urls[0];
 					});
 				}
 
@@ -96,7 +96,7 @@ angular.module("umbraco").controller("Umbraco.Dialogs.LinkPickerController",
 
 				//iterate children
 				_.each(args.children, function (child) {
-					//check if any of the items are list views, if so we need to add a custom 
+					//check if any of the items are list views, if so we need to add a custom
 					// child: A node to activate the search
 					if (child.metaData.isContainer) {
 						child.hasChildren = true;
@@ -138,7 +138,7 @@ angular.module("umbraco").controller("Umbraco.Dialogs.LinkPickerController",
 			$scope.searchInfo.results = [];
 		}
 
-		// method to select a search result 
+		// method to select a search result
 		$scope.selectResult = function (evt, result) {
 			result.selected = result.selected === true ? false : true;
 			nodeSelectHandler(evt, {
@@ -147,7 +147,7 @@ angular.module("umbraco").controller("Umbraco.Dialogs.LinkPickerController",
 			});
 		};
 
-		//callback when there are search results 
+		//callback when there are search results
 		$scope.onSearchResults = function (results) {
 			$scope.searchInfo.results = results;
 			$scope.searchInfo.showSearch = true;

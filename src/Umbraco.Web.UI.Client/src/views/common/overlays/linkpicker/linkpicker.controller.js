@@ -3,8 +3,6 @@ angular.module("umbraco").controller("Umbraco.Overlays.LinkPickerController",
 	function ($scope, eventsService, dialogService, entityResource, contentResource, mediaHelper, userService, localizationService, tinyMceService) {
 		var dialogOptions = $scope.model;
 
-		var anchorPattern = /<a id=\\"(.*?)\\">/gi;
-
 		var searchText = "Search...";
 		localizationService.localize("general_search").then(function (value) {
 			searchText = value + "...";
@@ -52,10 +50,12 @@ angular.module("umbraco").controller("Umbraco.Overlays.LinkPickerController",
 					$scope.model.target.url = resp.urls[0];
 				});
 			} else if ($scope.model.target.url.length) {
-				// a url but no id/udi indicates an external link - trim the url to remove the anchor/qs
-				$scope.model.target.url = $scope.model.target.url.substring(0, $scope.model.target.url.search(/(#|\?)/));				
+                // a url but no id/udi indicates an external link - trim the url to remove the anchor/qs
+				$scope.model.target.url = $scope.model.target.url.split(/(#|\?)/)[0];
 			}
-		} else if (dialogOptions.anchors) {
+        }
+
+        if (dialogOptions.anchors) {
 			$scope.anchorValues = dialogOptions.anchors;
 		}
 
@@ -114,7 +114,7 @@ angular.module("umbraco").controller("Umbraco.Overlays.LinkPickerController",
 						$scope.model.target.isMedia = true;
 						$scope.model.target.name = media.name;
 						$scope.model.target.url = mediaHelper.resolveFile(media);
-						
+
 						debugger;
 
 						$scope.mediaPickerOverlay.show = false;
