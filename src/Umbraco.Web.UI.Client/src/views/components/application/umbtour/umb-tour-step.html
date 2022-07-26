@@ -1,4 +1,4 @@
-<div class="umb-tour-step umb-tour-step--{{size}}">
+<section class="umb-tour-step umb-tour-step--{{size}}" tabindex="-1" role="dialog" aria-labelledby="tourHeader" aria-describedby="tourDesc">
 
     <div ng-if="hideClose !== true">
         <button type="button" class="umb-tour-step__close" hotkey="esc" ng-click="close()">
@@ -10,5 +10,4 @@
     </div>
 
     <div ng-transclude></div>
-
-</div>
+</section>

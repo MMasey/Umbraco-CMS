@@ -315,6 +315,10 @@ In the following example you see how to run some custom logic before a step goes
 
                     scope.loadingStep = false;
 
+                    $timeout(function () {
+                      el.find(".umb-tour-step")[0].focus();
+                    }, 50);
+
                 });
             }
 
